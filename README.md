@@ -1,10 +1,7 @@
 # Test-sqlite3-secure-hashes
 ### A project that i made to discover sqlite3 and hashlib
 
-The function new_user() allows you to add a row to the table.
-Parameters to fill are pseudo, mail and password and hash algorithm
-
-Example: *database*.new_user("John", "Doe", "John@Doe.com", "sha256")
+The function *database*.new_user() allows you to add a row to the table.
 
 Supported hash algorithm:
 
@@ -17,12 +14,11 @@ Supported hash algorithm:
 - blake2b
 - blake2s
 
-To delete a user, use the function delete_user()
-Parameter to fill is the row id of the user
+To delete a user, use the function *database*.delete_user()
 
-Example: *database*.delete_user(2)
+The function *database*.check_user() allows you to check if a certain name is registered in the database.
+It will also tell you how many time the name have been found in the database
 
 To display the database use the function:
-
 *database*.display_db()
 
