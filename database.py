@@ -1,5 +1,7 @@
 import sqlite3
+import datetime
 import hash
+
 
 # Connection to the database
 conn = sqlite3.connect('database.db')
@@ -8,10 +10,11 @@ cursor = conn.cursor()
 
 # Creation of the table "users"
 # cursor.execute("""CREATE TABLE users (
-#       pseudo BLOB,
-#       email TEXT,
-#       password BLOB
-#       )""")
+#        name TEXT,
+#        email TEXT,
+#        password BLOB,
+#        creation_date TEXT
+#        )""")
 
 
 # Function to add a new user
@@ -20,15 +23,19 @@ def new_user():
     email = input("Email: ")
     password = input("Password: ")
     algorithm = input("Algorithm: ")
+    date = datetime.datetime.now()
+
     # Connection to the database
     connection = sqlite3.connect('database.db')
     # Cursor to navigate and execute in the database
     cursor = connection.cursor()
+
     # Hashing the password and choosing the algorithm
     password = hash.hash_password(password, algorithm)
 
     # Adding user to the db and closing connection
-    cursor.execute("INSERT INTO users VALUES (?,?,?)", (name, email, password))
+    cursor.execute("INSERT INTO users VALUES (?,?,?,?)", (name, email, date.strftime("%Y-%m-%d"), password ))
+
     connection.commit()
     connection.close()
 
@@ -40,20 +47,23 @@ def delete_user():
     connection = sqlite3.connect('database.db')
     # Cursor to navigate and execute in the database
     cursor = connection.cursor()
+
     cursor.execute("DELETE from users WHERE rowid = (?)", (rowid,))
+
     connection.commit()
     connection.close()
 
 
 # Function to check if the user exist in the db
 def check_user():
-    user = str(input())
+    user = str(input("Name to check: "))
     # Connection to the database
     connection = sqlite3.connect('database.db')
     # Cursor to navigate and execute in the database
     cursor = connection.cursor()
     cursor.execute("SELECT rowid, * FROM users WHERE pseudo = (?) ", (user,))
     users = cursor.fetchall()
+
     print("ID" + "\tNAME" + "\t\tMAIL " + "\t\t\t\t\tPASSWORD")
     print("---" + "\t-------" + "\t\t--------- " + "\t\t\t\t---------")
 
@@ -73,9 +83,12 @@ def display_db():
     cursor = connection.cursor()
     cursor.execute("SELECT rowid, * FROM users")
     users = cursor.fetchall()
-    print("ID" + "\tNAME" + "\t\tMAIL " + "\t\t\t\t\tPASSWORD")
-    print("---" + "\t-------" + "\t\t--------- " + "\t\t\t\t---------")
+
+    print("ID" + "\tNAME" + "\tMAIL" + " \t\t\t\tCREATION DATE" + "\tPASSWORD")
+    print("---" + "\t-------" + "\t----------" + "\t\t\t-----------" + "\t\t---------")
+
     for user in users:
-        print(user[0],  "| ",  user[1], "\t| ", user[2], "\t| ", user[3])
+        print(user[0],  "| ",  user[1], "\t| ", user[2], "\t| ", user[3], "\t| ", user[4])
+
     connection.commit()
     connection.close()
