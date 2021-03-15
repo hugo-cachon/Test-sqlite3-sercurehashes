@@ -48,7 +48,7 @@ def delete_user():
     # Cursor to navigate and execute in the database
     cursor = connection.cursor()
 
-    cursor.execute("DELETE FPOM users WHERE rowid = (?)", (rowid,))
+    cursor.execute("DELETE FROM users WHERE rowid = (?)", (rowid,))
 
     connection.commit()
     connection.close()

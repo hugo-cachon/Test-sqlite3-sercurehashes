@@ -39,6 +39,7 @@ def main():
     if options == 5:
         try:
             database.create_db()
+            print("Database created\n")
         except Exception as error:
             print("Error", error)
         finally:
