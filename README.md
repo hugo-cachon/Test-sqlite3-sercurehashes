@@ -22,3 +22,13 @@ It will also tell you how many time the name have been found in the database
 To display the database use the function:
 *database*.display_db()
 
+To create a database use the function
+*database*.create_db()
+The default columns of the DB are:
+- Name
+- Email
+- Password
+- Creation Date
+
+
+

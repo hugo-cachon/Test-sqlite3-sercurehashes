@@ -3,18 +3,18 @@ import datetime
 import hash
 
 
-# Connection to the database
-conn = sqlite3.connect('database.db')
-# Cursor to navigate and execute in the database
-cursor = conn.cursor()
-
 # Creation of the table "users"
-# cursor.execute("""CREATE TABLE users (
-#        name TEXT,
-#        email TEXT,
-#        password BLOB,
-#        creation_date TEXT
-#        )""")
+def create_db():
+    # Connection to the database
+    conn = sqlite3.connect('database.db')
+    # Cursor to navigate and execute in the database
+    cursor = conn.cursor()
+    cursor.execute("""CREATE TABLE users (
+            name TEXT,
+            email TEXT,
+            password BLOB,
+            creation_date TEXT
+            )""")
 
 
 # Function to add a new user
@@ -48,7 +48,7 @@ def delete_user():
     # Cursor to navigate and execute in the database
     cursor = connection.cursor()
 
-    cursor.execute("DELETE from users WHERE rowid = (?)", (rowid,))
+    cursor.execute("DELETE FPOM users WHERE rowid = (?)", (rowid,))
 
     connection.commit()
     connection.close()
@@ -61,16 +61,16 @@ def check_user():
     connection = sqlite3.connect('database.db')
     # Cursor to navigate and execute in the database
     cursor = connection.cursor()
-    cursor.execute("SELECT rowid, * FROM users WHERE pseudo = (?) ", (user,))
+    cursor.execute("SELECT rowid, * FROM users WHERE name = (?) ", (user,))
     users = cursor.fetchall()
 
-    print("ID" + "\tNAME" + "\t\tMAIL " + "\t\t\t\t\tPASSWORD")
-    print("---" + "\t-------" + "\t\t--------- " + "\t\t\t\t---------")
+    print("ID" + "\tNAME" + "\tMAIL" + " \t\t\t\tCREATION DATE" + "\tPASSWORD")
+    print("---" + "\t-------" + "\t----------" + "\t\t\t-----------" + "\t\t---------")
 
     for names in users:
-        print(names[0],  "| ",  names[1], "\t| ", names[2], "\t| ", names[3])
-
+        print(names[0],  "| ",  names[1], "\t| ", names[2], "\t| ", names[3], "\t| ", names[4])
     print(len(users), user, "found in the database\n")
+
     connection.commit()
     connection.close()
 
